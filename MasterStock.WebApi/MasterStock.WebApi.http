@@ -1,0 +1,6 @@
+@MasterStock.WebApi_HostAddress = http://localhost:5049
+
+GET {{MasterStock.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
