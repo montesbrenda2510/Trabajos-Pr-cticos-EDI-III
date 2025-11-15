@@ -11,4 +11,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MasterStock.Abstracions\MasterStock.Abstracions.csproj" />
+  </ItemGroup>
+
 </Project>

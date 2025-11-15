@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="9.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MasterStock.Abstracions\MasterStock.Abstracions.csproj" />
+  </ItemGroup>
+
 </Project>

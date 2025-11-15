@@ -6,12 +6,12 @@ namespace MasterStock.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TipodeMovimientoController:ControllerBase
+    public class TiposdeMovimientoController:ControllerBase
     {
 
-            private readonly ILogger<TipodeMovimientoController> _logger;
-            private readonly IApplication<TipodeMovimientos> _tipoMovimiento;
-            public TipodeMovimientoController(ILogger<TipodeMovimientoController> logger, IApplication<TipodeMovimientos> tipodeMovimiento)
+            private readonly ILogger<TiposdeMovimientoController> _logger;
+            private readonly IApplication<TipodeMovimiento> _tipoMovimiento;
+            public TiposdeMovimientoController(ILogger<TiposdeMovimientoController> logger, IApplication<TipodeMovimiento> tipodeMovimiento)
             {
                 _logger = logger;
                 _tipoMovimiento = tipodeMovimiento;
@@ -32,7 +32,7 @@ namespace MasterStock.WebApi.Controllers
                 {
                     return BadRequest();
                 }
-                TipodeMovimientos tipodeMovimiento = _tipoMovimiento.GetById(Id.Value);
+                TipodeMovimiento tipodeMovimiento = _tipoMovimiento.GetById(Id.Value);
                 if (tipodeMovimiento is null)
                 {
                     return NotFound();
@@ -41,7 +41,7 @@ namespace MasterStock.WebApi.Controllers
             }
 
             [HttpPost]
-            public async Task<IActionResult> Crear(TipodeMovimientos tipodeMovimientos)
+            public async Task<IActionResult> Crear(TipodeMovimiento tipodeMovimientos)
             {
                 if (!ModelState.IsValid)
                 { return BadRequest(); }
@@ -50,16 +50,16 @@ namespace MasterStock.WebApi.Controllers
             }
 
         [HttpPut]
-        public async Task<IActionResult> Editar(int? Id, TipodeMovimientos tipodeMovimientos)
+        public async Task<IActionResult> Editar(int? Id, TipodeMovimiento tipodeMovimientos)
         {
             if (!Id.HasValue)
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            TipodeMovimientos tipodeMovimientoBack = _tipoMovimiento.GetById(Id.Value);
+            TipodeMovimiento tipodeMovimientoBack = _tipoMovimiento.GetById(Id.Value);
             if (tipodeMovimientoBack is null)
             { return NotFound(); }
-            tipodeMovimientoBack.TipodeMovimiento =tipodeMovimientos.TipodeMovimiento;
+            tipodeMovimientoBack.TipoMovimiento =tipodeMovimientos.TipoMovimiento;
 
                 return Ok(tipodeMovimientoBack);
             }
@@ -71,7 +71,7 @@ namespace MasterStock.WebApi.Controllers
                 { return BadRequest(); }
                 if (!ModelState.IsValid)
                 { return BadRequest(); }
-                TipodeMovimientos tipodeMovimientoBack = _tipoMovimiento.GetById(Id.Value);
+                TipodeMovimiento tipodeMovimientoBack = _tipoMovimiento.GetById(Id.Value);
                 if (tipodeMovimientoBack is null)
                 { return NotFound(); }
 

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MasterStock.Abstracions\MasterStock.Abstracions.csproj" />
+    <ProjectReference Include="..\MasterStock.Entitis\MasterStock.Entitis.csproj" />
     <ProjectReference Include="..\MasterStock.Repository\MasterStock.Repository.csproj" />
   </ItemGroup>
 

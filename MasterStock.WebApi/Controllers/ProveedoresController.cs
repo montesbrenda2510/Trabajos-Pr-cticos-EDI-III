@@ -9,8 +9,8 @@ namespace MasterStock.WebApi.Controllers
     public class ProveedorController : ControllerBase
     {
         private readonly ILogger<ProveedorController> _logger;
-        private readonly IApplication<Proveedores> _proveedor;
-        public ProveedorController(ILogger<ProveedorController> logger, IApplication<Proveedores> proveedor)
+        private readonly IApplication<Proveedor> _proveedor;
+        public ProveedorController(ILogger<ProveedorController> logger, IApplication<Proveedor> proveedor)
         {
             _logger = logger;
             _proveedor = proveedor;
@@ -31,7 +31,7 @@ namespace MasterStock.WebApi.Controllers
             {
                 return BadRequest();
             }
-            Proveedores proveedor = _proveedor.GetById(Id.Value);
+            Proveedor proveedor = _proveedor.GetById(Id.Value);
             if (proveedor is null)
             {
                 return NotFound();
@@ -40,7 +40,7 @@ namespace MasterStock.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Crear(Proveedores proveedor)
+        public async Task<IActionResult> Crear(Proveedor proveedor)
         {
             if (!ModelState.IsValid)
             { return BadRequest(); }
@@ -49,13 +49,13 @@ namespace MasterStock.WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Editar(int? Id, Proveedores proveedor)
+        public async Task<IActionResult> Editar(int? Id, Proveedor proveedor)
         {
             if (!Id.HasValue)
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            Proveedores proveedorBack = _proveedor.GetById(Id.Value);
+            Proveedor proveedorBack = _proveedor.GetById(Id.Value);
                 if (proveedorBack is null)
                 { return NotFound(); }
                 proveedorBack.RazonSocial = proveedor.RazonSocial;
@@ -73,7 +73,7 @@ namespace MasterStock.WebApi.Controllers
                 { return BadRequest(); }
                 if (!ModelState.IsValid)
                 { return BadRequest(); }
-            Proveedores proveedorBack = _proveedor.GetById(Id.Value);
+            Proveedor proveedorBack = _proveedor.GetById(Id.Value);
             if (proveedorBack is null)
                 { return NotFound(); }
                 _proveedor.Delete(proveedorBack.Id);
