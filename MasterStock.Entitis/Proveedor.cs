@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterStock.Abstracions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MasterStock.Entitis
 {
-    public class Proveedores
+    public class Proveedor : IEntidad
     {
         public int Id { get; set; }
 
