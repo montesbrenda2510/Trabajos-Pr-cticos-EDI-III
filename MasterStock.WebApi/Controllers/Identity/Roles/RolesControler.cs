@@ -54,6 +54,7 @@ namespace MasterStock.WebApi.Controllers.Identity.Roles
                 try
                 {
                     var role = _mapper.Map<Role>(roleRequestDto);
+                    role.Id = Guid.NewGuid();
                     var result = _roleManager.CreateAsync(role).Result;
                     if (result.Succeeded)
                     {

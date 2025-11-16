@@ -8,9 +8,11 @@ namespace MasterStock.WebApi.Maping
     {
         public RoleMappingProfile()
         {
-            CreateMap<Role, RoleResponse>();
-
-            CreateMap<RoleRequet, Role>();
+            CreateMap<Role, RoleResponse>()
+    .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Name));
+            CreateMap<RoleRequet, Role>()
+    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Nombre))
+    .ForMember(dest => dest.NormalizedName, opt => opt.MapFrom(src => src.Nombre.ToUpper()));
         }
        
       }

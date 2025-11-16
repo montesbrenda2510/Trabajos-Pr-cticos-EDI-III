@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MasterStock.Aplication.Dto.Categoria;
+using MasterStock.Aplication.Dto.Producto;
 using MasterStock.Aplication;
 using MasterStock.Entitis.MicrosoftIdentity;
 using MasterStock.Entitis;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MasterStock.Aplication.Dto.Producto;
+using MasterStock.Aplication.Dto.MovimientoStock;
 
 namespace MasterStock.WebApi.Controllers
 {
@@ -15,20 +15,20 @@ namespace MasterStock.WebApi.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductosController : ControllerBase
+    public class MovimientosStockController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        private readonly ILogger<ProductosController> _logger;
-        private readonly IApplication<Producto> _producto;
+        private readonly ILogger<MovimientosStockController> _logger;
+        private readonly IApplication<MovimientodeStock> _movimiento;
         private readonly IMapper _mapper;
-        public ProductosController(
-            ILogger<ProductosController> logger
+        public MovimientosStockController(
+            ILogger<MovimientosStockController> logger
             , UserManager<User> userManager
-            , IApplication<Producto> producto
+            , IApplication<MovimientodeStock> producto
             , IMapper mapper)
         {
             _logger = logger;
-            _producto = producto;
+            _movimiento = producto;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -44,7 +44,7 @@ namespace MasterStock.WebApi.Controllers
             {
                 var name = User.FindFirst("name");
                 var a = User.Claims;
-                return Ok(_mapper.Map<IList<ProductoResponse>>(_producto.GetAll()));
+                return Ok(_mapper.Map<IList<MovimientodeStock>>(_movimiento.GetAll()));
             }
             return Unauthorized();
         }
@@ -57,38 +57,38 @@ namespace MasterStock.WebApi.Controllers
             {
                 return BadRequest();
             }
-            Producto producto = _producto.GetById(Id.Value);
-            if (producto is null)
+            MovimientodeStock movimientodeStock= _movimiento.GetById(Id.Value);
+            if (movimientodeStock is null)
             {
                 return NotFound();
             }
-            return Ok(_mapper.Map<ProductoResponse>(producto));
+            return Ok(_mapper.Map<MovimientodeStock>(movimientodeStock));
         }
         //[Authorize]
         [HttpPost]
         [Route("Post")]
-        public async Task<IActionResult> Crear(ProductoRequets productoRequets)
+        public async Task<IActionResult> Crear(MovimientoStockRequets movimientoStockRequets)
         {
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var productoBack = _mapper.Map<Producto>(productoRequets);
-            _producto.Save(productoBack);
-            return Ok(productoBack.Id);
+            var movimientoBack = _mapper.Map<MovimientodeStock>(movimientoStockRequets);
+            _movimiento.Save(movimientoBack);
+            return Ok(movimientoBack.Id);
         }
         //[Authorize]
         [HttpPut]
         [Route("Put")]
-        public async Task<IActionResult> Editar(int? Id, ProductoRequets productoRequets)
+        public async Task<IActionResult> Editar(int? Id, MovimientoStockRequets movimientoStockRequets)
         {
             if (!Id.HasValue)
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            Producto productoBack = _producto.GetById(Id.Value);
-            if (productoBack is null)
+            MovimientodeStock movimientodeStock = _movimiento.GetById(Id.Value);
+            if (movimientodeStock is null)
             { return NotFound(); }
-            productoBack = _mapper.Map<Producto>(productoRequets);
-           _producto.Save(productoBack);
+            movimientodeStock = _mapper.Map<MovimientodeStock>( movimientoStockRequets);
+            _movimiento.Save(movimientodeStock);
             return Ok();
         }
         //[Authorize]
@@ -100,10 +100,10 @@ namespace MasterStock.WebApi.Controllers
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-           Producto productoBack = _producto.GetById(Id.Value);
-            if (productoBack is null)
+            MovimientodeStock movimientodeStock = _movimiento.GetById(Id.Value);
+            if (movimientodeStock is null)
             { return NotFound(); }
-           _producto.Delete(productoBack.Id);
+            _movimiento.Delete(movimientodeStock.Id);
             return Ok();
         }
     }

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MasterStock.Entitis.MicrosoftIdentity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +10,11 @@ using System.Threading.Tasks;
 
 namespace MasterStock.DataAccess.MicrosoftIdentity
 {
-    public class UserClaimConfig:IdentityUserClaim<Guid>
+    public class UserClaimConfig: IEntityTypeConfiguration<UserClaim>
     {
+        public void Configure(EntityTypeBuilder<UserClaim> builder)
+        {
+            builder.ToTable(nameof(UserClaim));
+        }
     }
 }

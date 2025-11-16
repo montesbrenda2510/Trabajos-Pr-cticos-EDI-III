@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MasterStock.Entitis.MicrosoftIdentity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +10,11 @@ using System.Threading.Tasks;
 
 namespace MasterStock.DataAccess.MicrosoftIdentity
 {
-    public class UserConfig:IdentityUser<Guid>
+    public class UserConfig: IEntityTypeConfiguration<User>
     {
-
+        public void Configure(EntityTypeBuilder<User> builder)
+        {
+            builder.ToTable(nameof(User));
+        }
     }
 }

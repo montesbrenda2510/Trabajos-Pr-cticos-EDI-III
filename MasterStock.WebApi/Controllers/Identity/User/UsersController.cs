@@ -30,17 +30,41 @@ namespace MasterStock.WebApi.Controllers.Identity.User
         [Route("AddRoleToUser")]
         public async Task<IActionResult> Guardar(string userId, string roleId)
         {
-            var user = _userManager.FindByIdAsync(userId).Result;
-            var role = _roleManager.FindByIdAsync(roleId).Result;
-            if (user is not null && role is not null)
+            var user = await _userManager.FindByIdAsync(userId);
+            var role = await _roleManager.FindByIdAsync(roleId);
+
+            if (user is null || role is null)
             {
-                var status = await _userManager.AddToRoleAsync(user, role.Name);
-                if (status.Succeeded)
+                return NotFound(new
                 {
-                    return Ok(new { user = user.UserName, rol = role.Name });
-                }
+                    message = "User or role not found.",
+                    userId,
+                    roleId
+                });
             }
-            return BadRequest(new { userId = userId, roleId = roleId });
+
+            var result = await _userManager.AddToRoleAsync(user, role.Name);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(new
+            {
+                user = user.UserName,
+                role = role.Name
+            });
+            //var user = _userManager.FindByIdAsync(userId).Result;
+            //var role = _roleManager.FindByIdAsync(roleId).Result;
+            //if (user is not null && role is not null)
+            //{
+            //    var status = await _userManager.AddToRoleAsync(user, role.Name);
+            //    if (status.Succeeded)
+            //    {
+            //        return Ok(new { user = user.UserName, rol = role.Name });
+            //    }
+            //}
+            //return BadRequest(new { userId = userId, roleId = roleId });
         }
     }
 }
