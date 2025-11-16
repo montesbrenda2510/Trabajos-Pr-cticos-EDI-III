@@ -15,30 +15,30 @@ namespace MasterStock.Entitis
         
         public int Id { get; set; }
         [ForeignKey(nameof(Productos))]
-        public int Idproducto { get; private set; }
-        public virtual Producto Productos { get;private set; }
+        public int Idproducto { get; set; }
+        public virtual Producto Productos { get; set; }
 
         [StringLength(30)]
-        public string TipodeMoviviento { get; private set; }
+        public string TipodeMoviviento { get;  set; }
         [StringLength(30)]
-        public int? Cantidad { get; private set; }
+        public string Cantidad { get;  set; }
 
         [DataType(DataType.Date)]
-        public DateTime FechadelMovimiento { get; private set; }
+        public DateTime FechadelMovimiento { get; set; }
 
-        public void SetTipodeMovimiento(string tipoM)
-        {
-            if (string.IsNullOrWhiteSpace(tipoM))
-                throw new ArgumentException("El Tipo de Movimiento no puede estar vacío.");
-            TipodeMoviviento = tipoM;
-        }
+        //public void SetTipodeMovimiento(string tipoM)
+        //{
+        //    if (string.IsNullOrWhiteSpace(tipoM))
+        //        throw new ArgumentException("El Tipo de Movimiento no puede estar vacío.");
+        //    TipodeMoviviento = tipoM;
+        //}
 
-        public void SetCantidad(int cantidad)
-        {
-            if (cantidad == null || cantidad <= 0)
-                throw new ArgumentException("La cantidad no puede estar vacía.");
-            Cantidad=cantidad;  
-        }
+        //public void SetCantidad(int cantidad)
+        //{
+        //    if (cantidad == null || cantidad <= 0)
+        //        throw new ArgumentException("La cantidad no puede estar vacía.");
+        //    Cantidad=cantidad;  
+        //}
 
     }
 }

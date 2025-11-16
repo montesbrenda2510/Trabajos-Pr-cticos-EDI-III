@@ -19,7 +19,7 @@ namespace MasterStock.Aplication.Dto.MovimientoStock
       
         public string TipodeMoviviento { get; set; }
        
-        public int Cantidad { get; set; }
+        public string Cantidad { get; set; }
 
         public DateTime FechadelMovimiento { get; set; }
     }

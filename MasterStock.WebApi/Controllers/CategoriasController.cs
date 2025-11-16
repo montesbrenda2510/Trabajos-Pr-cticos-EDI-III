@@ -3,6 +3,7 @@ using MasterStock.Aplication;
 using MasterStock.Aplication.Dto.Categoria;
 using MasterStock.DataAccess.MicrosoftIdentity;
 using MasterStock.Entitis;
+using MasterStock.Entitis.MicrosoftIdentity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -87,18 +88,18 @@ namespace MasterStock.WebApi.Controllers
     //    }
     //}
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriasController : ControllerBase
     {
-        private readonly UserManager<UserConfig> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<CategoriasController> _logger;
         private readonly IApplication<Categoria> _categoria;
         private readonly IMapper _mapper;
         public CategoriasController(
             ILogger<CategoriasController> logger
-            , UserManager<UserConfig> userManager
+            , UserManager<User> userManager
             , IApplication<Categoria> categoria
             , IMapper mapper)
         {
@@ -107,22 +108,23 @@ namespace MasterStock.WebApi.Controllers
             _mapper = mapper;
             _userManager = userManager;
         }
-
+        //[Authorize]
         [HttpGet]
         [Route("All")]
         public async Task<IActionResult> All()
         {
-            //var id = User.FindFirst("Id").Value.ToString();
-            //var user = _userManager.FindByIdAsync(id).Result;
-            //if (_userManager.IsInRoleAsync(user, "Administrador").Result)
-            //{
-            //    var name = User.FindFirst("name");
-            //    var a = User.Claims;
-             return Ok(_mapper.Map<IList<CategoriaResponse>>(_categoria.GetAll()));
-            //}
-            //return Unauthorized();
+            //return Ok(_mapper.Map<IList<CategoriaResponse>>(_categoria.GetAll()));
+            var id = User.FindFirst("Id").Value.ToString();
+            var user = _userManager.FindByIdAsync(id).Result;
+            if (_userManager.IsInRoleAsync(user, "Administrador").Result)
+            {
+                var name = User.FindFirst("name");
+                var a = User.Claims;
+                return Ok(_mapper.Map<IList<CategoriaResponse>>(_categoria.GetAll()));
+            }
+            return Unauthorized();
         }
-
+        //[Authorize]
         [HttpGet]
         [Route("ById")]
         public async Task<IActionResult> ById(int? Id)
@@ -138,18 +140,20 @@ namespace MasterStock.WebApi.Controllers
             }
             return Ok(_mapper.Map<CategoriaResponse>(categoria));
         }
-
+        //[Authorize]
         [HttpPost]
+        [Route("Post")]
         public async Task<IActionResult> Crear(CategoriaRequest categoriaRequest)
         {
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var autor = _mapper.Map<Categoria>(categoriaRequest);
-            _categoria.Save(autor);
-            return Ok(autor.Id);
+            var categoriaBack = _mapper.Map<Categoria>(categoriaRequest);
+            _categoria.Save(categoriaBack);
+            return Ok(categoriaBack.Id);
         }
-
+        //[Authorize]
         [HttpPut]
+        [Route("Put")]
         public async Task<IActionResult> Editar(int? Id, CategoriaRequest categoriaRequest)
         {
             if (!Id.HasValue)
@@ -163,8 +167,9 @@ namespace MasterStock.WebApi.Controllers
             _categoria.Save(categoriaBack);
             return Ok();
         }
-
+        //[Authorize]
         [HttpDelete]
+        [Route("Delete")]
         public async Task<IActionResult> Borrar(int? Id)
         {
             if (!Id.HasValue)

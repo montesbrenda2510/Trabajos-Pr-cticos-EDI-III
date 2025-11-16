@@ -13,7 +13,7 @@ namespace MasterStock.Aplication.Dto.Producto
     {
         public int Id { get; set; }
         [StringLength(30)]
-        public int Codigo { get; set; }
+        public string Codigo { get; set; }
         [StringLength(30)]
         public string Nombre { get; set; }
         [StringLength(30)]
