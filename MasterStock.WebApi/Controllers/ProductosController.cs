@@ -15,6 +15,7 @@ namespace MasterStock.WebApi.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrador")]
     public class ProductosController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
