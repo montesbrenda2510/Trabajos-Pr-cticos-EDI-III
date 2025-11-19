@@ -13,6 +13,7 @@ namespace MasterStock.WebApi.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
+    [Authorize(Roles= "Administrador")]
     [ApiController]
     public class ProveedoresController : ControllerBase
     {
